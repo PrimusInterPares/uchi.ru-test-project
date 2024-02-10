@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_10_140009) do
   create_table "klasses", force: :cascade do |t|
     t.integer "number", null: false
     t.string "letter", null: false
-    t.integer "students_count"
+    t.integer "students_count", default: 0, null: false
     t.bigint "school_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

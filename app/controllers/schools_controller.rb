@@ -15,7 +15,7 @@ class SchoolsController < ApplicationController
     @school = School.new(permitted_params)
 
     if @school.save
-      render json: @school, status: :created, location: @school
+      render json: @school, status: :created
     else
       render json: @school.errors, status: :unprocessable_entity
     end

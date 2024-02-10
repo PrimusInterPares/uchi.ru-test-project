@@ -11,5 +11,7 @@ class Klass < ApplicationRecord
             presence: true,
             uniqueness: true
 
-  validates :students_count, numericality: { only_integer: true }
+  validates :students_count,
+            presence: true,
+            numericality: { only_integer: true }
 end
