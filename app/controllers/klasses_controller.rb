@@ -2,9 +2,9 @@ class KlassesController < ApplicationController
   before_action :set_klass, only: %i[show update destroy]
 
   def index
-    @klasses = Klass.all
+    @klasses = Klass.where(school_id: params[:school_id])
 
-    render json: @klasses
+    render "klasses/index", status: :ok
   end
 
   def show
