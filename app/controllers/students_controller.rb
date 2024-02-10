@@ -1,42 +1,36 @@
 class StudentsController < ApplicationController
-  before_action :set_student, only: %i[show update destroy]
+  before_action :set_student, only: %i[destroy]
 
   def index
-    @students = Student.all
+    @students = Student.where(school_id: params[:school_id], klass_id: params[:klass_id])
 
-    render json: @students
-  end
-
-  def show
-    render json: @student
+    render "students/index", status: :ok
   end
 
   def create
     @student = Student.new(permitted_params)
 
     if @student.save
-      render json: @student, status: :created
+      render "students/create", status: :created
     else
-      render json: @student.errors, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    if @student.update(permitted_params)
-      render json: @student
-    else
-      render json: @student.errors, status: :unprocessable_entity
+      render json: "Invalid input", status: :method_not_allowed
     end
   end
 
   def destroy
     @student.destroy
+    # TODO: implement
+  rescue UnauthorizedError
+    render json: "Некорректная авторизация", status: :unauthorized
   end
 
   private
 
   def set_student
     @student = Student.find(params[:id])
+
+  rescue ActiveRecord::RecordNotFound
+    render json: "Некорректный id студента", status: :bad_request
   end
 
   def permitted_params
