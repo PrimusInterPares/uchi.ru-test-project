@@ -8,7 +8,5 @@ class CreateKlasses < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-
-    add_index :klasses, :letter, unique: true
   end
 end

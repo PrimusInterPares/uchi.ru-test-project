@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :schools do
-    resources :klasses, on: :member, path: :classes
+    resources :klasses, on: :member, path: :classes do
+      resources :students, on: :member
+    end
   end
 end

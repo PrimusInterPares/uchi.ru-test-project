@@ -9,7 +9,7 @@ class Klass < ApplicationRecord
 
   validates :letter,
             presence: true,
-            uniqueness: true
+            uniqueness: { scope: :school_id }
 
   validates :students_count,
             presence: true,
