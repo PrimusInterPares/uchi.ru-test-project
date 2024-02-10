@@ -1,0 +1,27 @@
+require:
+  - rubocop-factory_bot
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+AllCops:
+  DisabledByDefault: false
+  NewCops: enable
+  Exclude:
+    - db/schema.rb
+    - bin/**/*
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FetchEnvVar:
+  Enabled: false
+Style/NumberedParameters:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
