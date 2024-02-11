@@ -1,7 +1,13 @@
 class StudentsController < ApplicationController
   class ContractValidationError < StandardError; end
+  class AuthorizationFailure < StandardError; end
 
+  before_action :authorize!, only: :destroy
   before_action :validate_params, only: :create
+
+  rescue_from AuthorizationFailure do
+    head :unauthorized
+  end
 
   rescue_from ContractValidationError do
     head :method_not_allowed
@@ -27,6 +33,18 @@ class StudentsController < ApplicationController
   end
 
   private
+
+  def authorize!
+    bearer = request.headers["bearerAuth"]
+    raise AuthorizationFailure if bearer.nil?
+
+    student_id = params[:id]
+    raise AuthorizationFailure if student_id.nil?
+
+    token = TokenGenerator.encode(student_id)
+
+    raise AuthorizationFailure unless bearer == token
+  end
 
   def validate_params
     result = CreateStudentContract.call(permitted_params.to_h)

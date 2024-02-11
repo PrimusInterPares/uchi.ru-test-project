@@ -1,10 +1,7 @@
 class TokenGenerator
-  def self.decode(string)
-    Base64.decode64(string)
-  end
+  SALT = "a2729602816bc759cd5dfa178f7e808b".freeze
 
   def self.encode(data)
-    salt = SecureRandom.hex
-    Base64.encode64((data.try(:to_json) || data.to_s) + salt)
+    OpenSSL::HMAC.hexdigest("SHA256", SALT, data.to_s)
   end
 end
