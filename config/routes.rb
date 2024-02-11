@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :schools do
-    resources :klasses, on: :member, path: :classes do
+  scope module: :schools, path: "schools/:school_id" do
+    resources :klasses, path: :classes, only: :index do
       resources :students, on: :member, only: :index
     end
   end

@@ -23,6 +23,7 @@ class StudentsController < ApplicationController
 
   private
 
+  # TODO: validate json parameters
   def permitted_params
     params.permit(:first_name, :last_name, :surname, :klass_id, :school_id)
   end
