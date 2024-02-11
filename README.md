@@ -1,24 +1,26 @@
-# README
+# Задание для стажировки Ruby инженера
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Привет! Если ты хочешь стать частью команды Учи.ру в рамках стажёрской программы,
+то тебе необходимо выполнить небольшое тестовое задание. Это нужно, что бы твои
+потенциальные наставники смогли оценить твои навыки и сравнив их с остальными
+кандидатами выбрать лучших из лучших.
 
-Things you may want to cover:
+Помни, что работающий продукт важнее количества технологий и красивого кода.
 
-* Ruby version
+Удачи!
 
-* System dependencies
+## Что нужно сделать ?
 
-* Configuration
+- реализовать сервис, по описанию ниже
+- опубликовать его в своём GitHub репозитарии
+- прислать нам ссылку на опубликованный репозитарий
+- ждать обратной связи :)
 
-* Database creation
+## Требования к проекту
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- полная реализация API, описанного в openapi.yaml
+- **необходимо** использовать технологии:
+    - фреймворк Ruby on Rails
+    - база данных PostgreSQL
+    - Docker
+- проект должен запускаться локально командой `docker compose up`
