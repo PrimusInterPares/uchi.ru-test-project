@@ -5,7 +5,7 @@ class StudentsController < ApplicationController
     if @student.save
       render "students/create", status: :created
     else
-      render head: :method_not_allowed
+      head :method_not_allowed
     end
   end
 
@@ -13,11 +13,12 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
 
     @student.destroy
+
     # TODO: authorization
   rescue ActiveRecord::RecordNotFound
-    render head: :bad_request
+    head :bad_request
   rescue UnauthorizedError
-    render head: :unauthorized
+    head :unauthorized
   end
 
   private
