@@ -11,6 +11,7 @@ class StudentsController < ApplicationController
     @student = Student.new(permitted_params)
 
     if @student.save
+      response.headers["X-AUTH-TOKEN"] = TokenGenerator.encode(@student.id)
       render "students/create", status: :created
     else
       head :method_not_allowed
@@ -21,12 +22,8 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
 
     @student.destroy
-
-    # TODO: authorization
   rescue ActiveRecord::RecordNotFound
     head :bad_request
-  rescue UnauthorizedError
-    head :unauthorized
   end
 
   private
