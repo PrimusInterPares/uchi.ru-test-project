@@ -3,7 +3,7 @@ class StudentsController < ApplicationController
   class AuthorizationFailure < StandardError; end
 
   before_action :authorize!, only: :destroy
-  before_action :validate_params, only: :create
+  before_action :validate_params!, only: :create
 
   rescue_from AuthorizationFailure do
     head :unauthorized
@@ -27,7 +27,8 @@ class StudentsController < ApplicationController
   def destroy
     @student = Student.find(params[:id])
 
-    @student.destroy
+    @student.destroy!
+
   rescue ActiveRecord::RecordNotFound
     head :bad_request
   end
@@ -46,7 +47,7 @@ class StudentsController < ApplicationController
     raise AuthorizationFailure unless bearer == token
   end
 
-  def validate_params
+  def validate_params!
     result = CreateStudentContract.call(permitted_params.to_h)
     raise ContractValidationError if result.failure?
   end
