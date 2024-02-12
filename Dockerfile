@@ -4,7 +4,17 @@ FROM ruby:$RUBY_VERSION
 
 # Install libvips for Active Storage preview support
 RUN apt-get update -qq && \
-    apt-get install -y --fix-missing build-essential libvips bash bash-completion libffi-dev tzdata postgresql nodejs npm yarn && \
+    apt-get install -y --fix-missing \
+    build-essential \
+    libvips \
+    bash \
+    bash-completion \
+    libffi-dev \
+    tzdata \
+    postgresql \
+    nodejs \
+    npm \
+    yarn && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc /usr/share/man
 
@@ -33,5 +43,5 @@ RUN bundle exec bootsnap precompile --gemfile app/ lib/
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
-CMD ["./bin/rails", "server"]
+EXPOSE 9375
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
