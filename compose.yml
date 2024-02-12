@@ -29,7 +29,7 @@ services:
     depends_on:
       - db
     ports:
-      - "9375:9375"
+      - "3000:3000"
 
 volumes:
   postgres_data: {}
