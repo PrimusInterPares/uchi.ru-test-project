@@ -1,69 +1,51 @@
 require "rails_helper"
-
-RSpec.describe "Klasses" do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
-  end
-end
 require "swagger_helper"
 
-describe "Klasses API" do
+describe "Schools::Klasses API" do
+  path "/schools/{school_id}/classes" do
 
-  path "/schools/#{school_id}/classes" do
+    get "Class list" do
+      tags "classes"
+      description "Вывести список классов школы"
+      produces "application/json"
+      parameter name: :school_id, in: :path, type: :string
 
-    post "Creates a blog" do
-      tags "Blogs"
-      consumes "application/json"
-      parameter name: :blog, in: :body, schema: {
-        type: :object,
-        properties: {
-          title: { type: :string },
-          content: { type: :string }
-        },
-        required: [ "title", "content" ]
-      }
-
-      response "201", "blog created" do
-        let(:blog) { { title: "foo", content: "bar" } }
-        run_test!
-      end
-
-      response "422", "invalid request" do
-        let(:blog) { { title: "foo" } }
-        run_test!
-      end
-    end
-  end
-
-  path "/blogs/{id}" do
-
-    get "Retrieves a blog" do
-      tags "Blogs", "Another Tag"
-      produces "application/json", "application/xml"
-      parameter name: :id, in: :path, type: :string
-      request_body_example value: { some_field: "Foo" }, name: "basic", summary: "Request example description"
-
-      response "200", "blog found" do
+      response "200", "Список классов" do
         schema type: :object,
+               required: %w[data],
                properties: {
-                 id: { type: :integer },
-                 title: { type: :string },
-                 content: { type: :string }
-               },
-               required: [ "id", "title", "content" ]
+                 data: {
+                   type: :array,
+                   items: {
+                     id: { type: :integer },
+                     number: { type: :integer },
+                     letter: { type: :string },
+                     students_count: { type: :integer }
+                   }
+                 },
+                 required: %w[id number letter students_count]
+               }
 
-        let(:id) { Blog.create(title: "foo", content: "bar").id }
-        run_test!
-      end
+        context "when data persists" do
+          let(:school) { create(:school) }
+          let(:school_id) { school.id }
 
-      response "404", "blog not found" do
-        let(:id) { "invalid" }
-        run_test!
-      end
+          before do
+            create(:klass, school:, letter: "A")
+            create(:klass, school:, letter: "B")
+            create(:klass, school:, letter: "C")
+            create(:klass, school:, letter: "D")
+          end
 
-      response "406", "unsupported accept header" do
-        let(:'Accept') { "application/foo" }
-        run_test!
+          run_test!
+        end
+
+        context "when no data persists" do
+          let(:school) { create(:school) }
+          let(:school_id) { school.id }
+
+          run_test!
+        end
       end
     end
   end
