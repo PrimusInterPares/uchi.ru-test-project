@@ -1,30 +1,16 @@
 require "rails_helper"
 require "swagger_helper"
 
-describe "Schools::Klasses API" do
+describe "Schools::klasses API" do
   path "/schools/{school_id}/classes" do
 
-    get "Class list" do
+    get "Вывести список классов школы" do
       tags "classes"
-      description "Вывести список классов школы"
       produces "application/json"
       parameter name: :school_id, in: :path, type: :string
 
       response "200", "Список классов" do
-        schema type: :object,
-               required: %w[data],
-               properties: {
-                 data: {
-                   type: :array,
-                   items: {
-                     id: { type: :integer },
-                     number: { type: :integer },
-                     letter: { type: :string },
-                     students_count: { type: :integer }
-                   }
-                 },
-                 required: %w[id number letter students_count]
-               }
+        Schemas::Schools::KlassesList.schema
 
         context "when data persists" do
           let(:school) { create(:school) }

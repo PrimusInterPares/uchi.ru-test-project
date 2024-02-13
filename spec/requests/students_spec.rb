@@ -4,40 +4,24 @@ require "swagger_helper"
 describe "Students API" do
   path "/students" do
 
-    post "Creates a student" do
+    post "Регистрация нового студента" do
       tags "students"
-      description "Регистрация нового студента"
       consumes "application/json"
       produces "application/json"
       parameter name: :student, in: :body, schema: {
         type: :object,
-        required: %w[student],
+        required: %w[first_name last_name surname klass_id school_id],
         properties: {
-          student: {
-            type: :object,
-            properties: {
-              first_name: { type: :string },
-              last_name: { type: :string },
-              surname: { type: :string },
-              klass_id: { type: :integer },
-              school_id: { type: :integer }
-            },
-            required: %w[first_name last_name surname klass_id school_id]
-          }
+          first_name: { type: :string },
+          last_name: { type: :string },
+          surname: { type: :string },
+          klass_id: { type: :integer },
+          school_id: { type: :integer }
         }
       }
 
       response "201", "Successful operation" do
-        schema type: :object,
-               properties: {
-                 id: { type: :integer },
-                 first_name: { type: :string },
-                 last_name: { type: :string },
-                 surname: { type: :string },
-                 class_id: { type: :integer },
-                 school_id: { type: :integer }
-               },
-               required: %w[id first_name last_name surname class_id school_id]
+        Schemas::Student.schema
 
         let(:school) { create(:school) }
         let(:klass) { create(:klass) }
@@ -87,11 +71,11 @@ describe "Students API" do
 
   path "/students/{user_id}" do
 
-    delete "Deletes a student" do
-      description "Удалить студента"
+    delete "Удалить студента" do
+      tags "students"
       consumes "application/json"
       parameter name: :user_id, in: :path, type: :string
-      parameter name: "bearerAuth", in: :header, type: :string
+      security [bearerAuth: []]
 
       response "204", "Successful operation" do
         let(:user_id) { create(:student).id }
