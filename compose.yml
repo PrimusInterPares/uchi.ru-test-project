@@ -16,7 +16,6 @@ services:
   app:
     hostname: uchi_ru_api_app
     build: .
-    command: "./bin/rails server"
     environment:
       - RAILS_ENV=${RAILS_ENV}
       - POSTGRES_HOST=${POSTGRES_HOST}
